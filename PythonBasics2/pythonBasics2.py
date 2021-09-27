@@ -23,7 +23,21 @@ def count_threes(n):
 # Define a function longest_consecutive_repeating_char(s) that takes
 # a string s and returns the character that has the longest consecutive repeat.
 def longest_consecutive_repeating_char(s):
-  # YOUR CODE HERE
+  count = 0
+  letter = s[0]
+  for i in range(len(s)):
+    counts = 1
+    for j in range(i + 1, len(s)):
+      if s[i] != s[j]:
+        break
+      counts += 1
+
+      if counts > count:
+        count = counts
+        letter = s[i]
+  return letter
+
+
 
   return
 
