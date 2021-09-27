@@ -39,9 +39,6 @@ def longest_consecutive_repeating_char(s):
 
 
 
-  return
-
-
 # Part C. is_palindrome
 # Define a function is_palindrome(s) that takes a string s
 # and returns whether or not that string is a palindrome.
@@ -49,6 +46,12 @@ def longest_consecutive_repeating_char(s):
 # forwards. Treat capital letters the same as lowercase ones
 # and ignore spaces (i.e. case insensitive).
 def is_palindrome(s):
-  # YOUR CODE HERE
+  s = s.lower()
+  s = s.replace(" ", "")
 
-  return
+  for i in range(len(s) - 1):
+    if s[i] == s[len(s) - 1 - i]:
+      continue
+    else:
+      return False
+  return True
