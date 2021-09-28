@@ -19,6 +19,12 @@ class TestPythonBasicsOne(unittest.TestCase):
 
         # Please add three more test cases following the order above
 
+        self.assertEqual(pythonBasics3.starts_with_non_number("I am Carly Gross"), True)
+
+        self.assertEqual(pythonBasics3.starts_with_non_number("4 is my favorite number"), False)
+
+        self.assertEqual(pythonBasics3.starts_with_non_number("2001 is the year I was born"), False)
+
 #Test case for multiple_words
     def test_multiple_words(self):
 
@@ -26,7 +32,7 @@ class TestPythonBasicsOne(unittest.TestCase):
 
         self.assertEqual(pythonBasics3.multiple_words(" "), False)
 
-        self.assertEqual(pythonBasics3.multiple_words("Different\twhitespace"), False)
+        self.assertEqual(pythonBasics3.multiple_words("Different\\twhitespace"), False)
 
         self.assertEqual(pythonBasics3.multiple_words("It's-all-one-word"), False)
 
