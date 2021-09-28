@@ -12,10 +12,13 @@ import re
 # if it starts with anything that isn't a number and false otherwise.
 # (For our purposes, a number is any character that is 0,1,2,3,4,5,6,7,8, or 9.)
 # Note: Be sure to use RegEx!
-def starts_with_non_number(s):
-  # YOUR CODE HERE
 
-  return
+def starts_with_non_number(s):
+  RE_nums = r"(^[^0-9])"
+  if re.search(RE_nums, s):
+    return True
+  else:
+    return False
 
 # # Part B. multiple_words
 # Define a function multiple_words(s) that takes a string and returns true
@@ -24,7 +27,9 @@ def starts_with_non_number(s):
 # Note: Be sure to use RegEx and that it works for any whitespace character 
 # with at least one character on either side!
 def multiple_words(s):
-  # YOUR CODE HERE
+  #RE_boundary = r"\b."
+  #if re.search(RE_boundary, s):
+    #return True
 
   return
 
