@@ -27,11 +27,11 @@ def starts_with_non_number(s):
 # Note: Be sure to use RegEx and that it works for any whitespace character 
 # with at least one character on either side!
 def multiple_words(s):
-  #RE_boundary = r"\b."
-  #if re.search(RE_boundary, s):
-    #return True
-
-  return
+  RE_boundary = r"\w\s\w"
+  if re.search(RE_boundary, s):
+    return True
+  else:
+    return False
 
 
 # Part C. reserved_us_tld
