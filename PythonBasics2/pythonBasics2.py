@@ -11,31 +11,87 @@
 # to n (including n).
 
 def count_threes(n):
-  count = 0
-  for i in range(1, n+1):
-    if i % 3 == 0:
-      count += 1
+  d = dict()
+  for m in n:
+    if m not in d:
+      d[m] = 1
+    else:
+      d[m] = d[m] + 1
 
-  return count
+  return int(max(d, key=d.get))
+
+  #count = 0
+  #for i in range(1, n+1):
+  #  if i % 3 == 0:
+  #    count += 1
+
+  #return count
 
 
 # Part B. longest_consecutive_repeating_char
 # Define a function longest_consecutive_repeating_char(s) that takes
 # a string s and returns the character that has the longest consecutive repeat.
 def longest_consecutive_repeating_char(s):
+  letters = dict()
   count = 0
-  letter = s[0]
+
   for i in range(len(s)):
-    counts = 1
+    new_count = 1
+
     for j in range(i + 1, len(s)):
       if s[i] != s[j]:
         break
-      counts += 1
+      else:
+        new_count += 1
 
-      if counts > count:
-        count = counts
-        letter = s[i]
-  return letter
+      if new_count > count:
+        count = new_count
+
+      letters[s[i]] = count
+
+  list_letters = []
+  for key, value in letters.items():
+    list_letters.append(letters[key])
+
+  list_letters.sort(reverse=True)
+  #print(list_letters)
+  #print(letters)
+
+  highest = list_letters[0]
+  highest_list = []
+
+  for value in letters:
+    if highest == letters[value]:
+      highest_list.append(value)
+
+  #print(highest_list)
+
+  return highest_list
+
+
+
+
+
+
+
+
+
+
+
+
+  #count = 0
+  #letter = s[0]
+  #for i in range(len(s)):
+  #  counts = 1
+  #  for j in range(i + 1, len(s)):
+   #   if s[i] != s[j]:
+   #     break
+   #   counts += 1
+
+   #   if counts > count:
+    #    count = counts
+    #    letter = s[i]
+  #return letter
 
 
 
