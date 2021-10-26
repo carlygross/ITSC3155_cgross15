@@ -13,7 +13,7 @@ app = Flask(__name__)     # create an app
 @app.route('/index')
 def index():
     a_user = {'name': 'Carly', 'email': 'cgross15@uncc.edu'}
-    return render_template('index.html', user = a_user)
+    return render_template('index.html', user=a_user)
 
 @app.route('/notes')
 def get_notes():
@@ -29,6 +29,11 @@ def get_note(note_id):
              3: {'title': 'Third note', 'text': 'This is my third note', 'date': '10-3-2020'}
              }
     return render_template('note.html', note=notes[int(note_id)])
+
+@app.route('/notes/new')
+def new_note():
+    a_user = {'name': 'Mogli', 'email': 'mogli@uncc.edu'}
+    return render_template('new.html', user=a_user)
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
 
