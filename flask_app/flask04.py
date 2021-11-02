@@ -8,6 +8,8 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from database import db
+from models import Note as Note
+from models import User as User
 
 app = Flask(__name__)     # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_note_app.db'
@@ -20,36 +22,38 @@ db.init_app(app)
 with app.app_context():
     db.create_all()   # run under the app context
 
-notes = {1: {'title': 'First note', 'text': 'This is my first note', 'date': '10-1-2020'},
-             2: {'title': 'Second note', 'text': 'This is my second note', 'date': '10-2-2020'},
-             3: {'title': 'Third note', 'text': 'This is my third note', 'date': '10-3-2020'}
-             }
+#notes = {1: {'title': 'First note', 'text': 'This is my first note', 'date': '10-1-2020'},
+#             2: {'title': 'Second note', 'text': 'This is my second note', 'date': '10-2-2020'},
+#             3: {'title': 'Third note', 'text': 'This is my third note', 'date': '10-3-2020'}
+#            }
 # @app.route is a decorator. It gives the function "index" special powers.
 # In this case it makes it so anyone going to "your-url/" makes this function
 # get called. What it returns is what is shown as the web page
 @app.route('/index')
 def index():
-    a_user = {'name': 'Carly', 'email': 'cgross15@uncc.edu'}
+    # get user from database
+    a_user = db.session.query(User).filter_by(email='cgross15@uncc.edu')
     return render_template('index.html', user=a_user)
 
 @app.route('/notes')
 def get_notes():
-    a_user = {'name': 'Carly', 'email': 'cgross15@uncc.edu'}
-    return render_template('notes.html', user=a_user, notes=notes)
+    # retrieve user from database
+    a_user = db.session.query(User).filter_by(email='cgross15@uncc.edu')
+    # retrieve notes from database
+    my_notes = db.session.query(Note).all()
+    return render_template('notes.html', notes=my_notes, user=a_user)
 
 @app.route('/notes/<note_id>')
 def get_note(note_id):
-    a_user = {'name': 'Carly', 'email': 'cgross15@uncc.edu'}
+    # retrieve user from database
+    a_user = db.session.query(User).filter_by(email='cgross15@uncc.edu')
+    # retrieve note from database
+    my_notes = db.session.query(Note).filer_by(id=note_id)
 
-    # notes declaration?
-
-    return render_template('note.html',  user=a_user, note=notes[int(note_id)])
+    return render_template('note.html',  note=my_note, user=a_user)
 
 @app.route('/notes/new', methods=['GET', 'POST'])
 def new_note():
-    # create mock user
-    a_user = {'name': 'Carly', 'email': 'cgross15@uncc.edu'}
-
     # check method used for request
     #print('request method is', request.method)
     if request.method == 'POST':
@@ -62,13 +66,15 @@ def new_note():
         today = date.today()
         #format date mm/dd/yyyy
         today = today.strftime("%m-%d-%Y")
-        # get the last ID used and increment by 1
-        id = len(notes) + 1
-        # create new note entry
-        notes[id] = {'title': title, 'text': text, 'date': today}
+        new_record = Note(title, text, today)
+        db.session.add(new_record)
+        db.session.commit()
 
-        return redirect(url_for('get_notes', name = a_user))
+        return redirect(url_for('get_notes'))
     else:
+        # GET request - show new note form
+        # retrieve user from database
+        a_user = db.session.query(User).filter_by(email='cgross15@uncc.edu')
         return render_template('new.html', user=a_user)
 
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
