@@ -13,7 +13,7 @@ from models import User as User
 
 app = Flask(__name__)     # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_note_app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #  Bind SQLAlchemy db object to this Flask app
 db.init_app(app)
@@ -48,7 +48,7 @@ def get_note(note_id):
     # retrieve user from database
     a_user = db.session.query(User).filter_by(email='cgross15@uncc.edu')
     # retrieve note from database
-    my_notes = db.session.query(Note).filer_by(id=note_id)
+    my_notes = db.session.query(Note).filter_by(id=note_id)
 
     return render_template('note.html',  note=my_note, user=a_user)
 
